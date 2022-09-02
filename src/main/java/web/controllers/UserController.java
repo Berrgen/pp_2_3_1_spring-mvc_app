@@ -18,16 +18,16 @@ public class UserController {
     }
 
     @GetMapping(value = "/")
-    public ModelAndView allUsers() {
+    public ModelAndView showAllUsers() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("users");
-        modelAndView.addObject("userList", userService.allUsers());
+        modelAndView.addObject("userList", userService.getAllUsers());
         return modelAndView;
     }
 
     @GetMapping(value = "/edit/{id}")
-    public ModelAndView edit(@PathVariable(name = "id")long id,@ModelAttribute("user") User user) {
-        user = userService.getById(id);
+    public ModelAndView editUser(@PathVariable(name = "id")long id, @ModelAttribute("user") User user) {
+        user = userService.getUserById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("edit");
         modelAndView.addObject("user", user);
@@ -35,26 +35,26 @@ public class UserController {
     }
 
     @PutMapping(value = "/edit/{id}")
-    public ModelAndView editUser(@PathVariable(name = "id")long id,@ModelAttribute("user") User user) {
+    public ModelAndView saveUser(@PathVariable(name = "id")long id, @ModelAttribute("user") User user) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
-        userService.edit(user);
+        userService.editUser(user);
         return modelAndView;
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ModelAndView delete(@PathVariable(name = "id")long id) {
+    public ModelAndView deleteUser(@PathVariable(name = "id")long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
-        userService.deleteById( id);
+        userService.deleteUserById(id);
         return modelAndView;
     }
 
     @PostMapping(value = "/add")
-    public ModelAndView add(@ModelAttribute(name = "firstname") String firstname,
-                            @ModelAttribute(name = "lastname")String lastname,
-                            @ModelAttribute(name = "age")int age) {
-        userService.add(new User(firstname, lastname, age));
+    public ModelAndView addUser(@ModelAttribute(name = "firstname") String firstname,
+                                @ModelAttribute(name = "lastname")String lastname,
+                                @ModelAttribute(name = "age")int age) {
+        userService.addUser(new User(firstname, lastname, age));
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/");
         return modelAndView;
